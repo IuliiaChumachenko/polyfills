@@ -191,34 +191,36 @@ Array.prototype.mySort = function (userCallback) {
 
 // 14) Function.bind
 
-Function.prototype.myBind = function(context, ...args) {
+Function.prototype.myBind = function(context) {
     var self = this;
+	var args = [].slice.call(agruments, 1)
 
-    return function test(...argsIn) {
-        var ArgArg = args.concat(argsIn);
+    return function() {
+		var argsIn = [].slice.call(arguments);
+        var argsArgs = args.concat(argsIn);
 
         return self.apply(context, ArgArg);
     };
 }
 
 // 15) Function.call
-
-Function.prototype.myCall = function (context, ...args) {
-    var a = this.bind(context, ...args);
-    return a();
-}
-
 // 16) Function.apply
 
-Function.prototype.myApply = function() {
-    var [context, ...args] = arguments; 
-    return this.call(context, ...args);
-}
-
-Function.prototype.myApply = function() {
-    var [context, ...args] = arguments; 
-    var a = this.bind(context, ...args);
-    return a();
+Function.prototype.myCall = function (context) {
+	var name = '' + Math.random();
+	context[name] = this;
+	
+	var args = [];
+	for(var i = 1; i < arguments.length; i++) {
+		args[agrs.length] = 'arguments[' + i + ']';
+	}
+	
+	var newFunction = new Function('context, name, arguments',
+	'return context[name](' + args + ');');
+	var returnVal = newFunction(context, name, arguments);
+	
+	delete context(name);
+	return returnVal;
 }
 
 // 17) Object.freeze
