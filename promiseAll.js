@@ -12,7 +12,7 @@ Promise.all = function(promiseList){
         for(var i = 0; i < promiseList.length; i++){
             (function(i){
                 promiseList[i]
-                    .then(function r (result) {
+                    .then(function (result) {
                         fullfild[i] = result;
                         checkResolving();
                     })
